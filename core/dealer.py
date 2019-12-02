@@ -37,16 +37,23 @@ class Dealer():
 
         return self.current, self.cards_dealt
 
-    def next_turn(self):
+    def next_turn(self, can_switch_state=True):
         try:
             self.current = next(self.turn_iter)
 
             return self.state, None
 
         except StopIteration:
+            if not can_switch_state:
+                # can't switch state. cycle starts from beginning.
+                self.turn_iter = iter(range(self.N))
+                self.current = next(self.turn_iter)
+
+                return self.state, None
+
             # None means that there are no more people in the round
-            self.current = 0
             self.turn_iter = iter(range(self.N))
+            self.current = next(self.turn_iter)
 
             # turn ends => new state
             self.state, self.cards_dealt = self.states.pop(0)

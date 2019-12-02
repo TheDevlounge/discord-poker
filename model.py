@@ -98,6 +98,12 @@ def fetch_or_create_user(uid, name):
     return user
 
 
+def fetch_test_user():
+    user = User("333597133720649729", "IrishCyborg", chips=10000000, last_request=int(time()))
+
+    return user
+
+
 def fetch(cid):
     return channels[cid]
 
